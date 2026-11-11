@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[DOC_003] 交界地圓桌補給站＆翻滾負重即時計算機｜家豪的交界地戰術資料庫</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0b0e14;
+      --bg-card: #131822;
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.16);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56, 189, 248, 0.14);
+      --crimson: #f43f5e;
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.16);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #263042;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Noto Sans TC", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg-deep); color: var(--text-main); line-height: 1.7; }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+    .top-nav { padding: 22px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .back-link { color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 14px; font-weight: 600; }
+    .doc-badge { font-family: var(--mono); font-size: 12.5px; background: var(--emerald-soft); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 999px; }
+
+    .hero { margin-top: 28px; background: var(--bg-card); border: 1px solid var(--border); border-top: 3px solid var(--emerald); border-radius: 16px; padding: 30px; }
+    .hero h1 { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero .en-sub { font-family: var(--mono); font-size: 14px; color: var(--gold); margin-bottom: 18px; }
+    .jiahao-box { background: rgba(11, 14, 20, 0.8); border: 1px solid rgba(56, 189, 248, 0.35); border-left: 4px solid var(--cyan); border-radius: 10px; padding: 16px 20px; }
+    .jiahao-box .title { font-family: var(--mono); font-size: 13px; color: var(--cyan); font-weight: 700; margin-bottom: 6px; }
+
+    .sec { margin-top: 36px; }
+    .sec h2 { font-size: 21px; font-weight: 800; color: #fff; margin-bottom: 14px; padding-left: 12px; border-left: 4px solid var(--gold); }
+
+    .tool-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .input-group { margin-bottom: 16px; }
+    .input-group label { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
+    .input-group label span { font-family: var(--mono); color: var(--cyan); font-weight: 700; }
+    input[type="range"] { width: 100%; accent-color: var(--cyan); cursor: pointer; }
+    input[type="number"] {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 15px;
+    }
+
+    .output-card {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .big-pct { font-family: var(--mono); font-size: 38px; font-weight: 800; margin-bottom: 6px; }
+    .roll-badge { display: inline-block; font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 6px; margin-bottom: 12px; align-self: flex-start; }
+
+    /* Shop Calculator */
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .shop-item { background: #0b0e14; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+    .shop-item h4 { color: var(--gold); font-size: 15.5px; }
+    .shop-item .price { font-family: var(--mono); font-size: 13px; color: var(--cyan); margin: 4px 0 8px; }
+
+    .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(255, 255, 255, 0.03); color: var(--gold); font-family: var(--mono); font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+
+    footer { margin: 48px 0 36px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 13.5px; color: var(--text-muted); }
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    @media (max-width: 720px) { .tool-panel { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a class="back-link" href="../../index.html">← 返回交界地戰術總目錄</a>
+      <span class="doc-badge">[DOC_003] 戰術試算工具</span>
+    </nav>
+
+    <section class="hero">
+      <h1>交界地圓桌補給站 ＆ 翻滾負重即時計算機</h1>
+      <div class="en-sub">EQUIP LOAD &amp; ROUNDTABLE HOLD RUNES CALCULATOR</div>
+      <div class="jiahao-box">
+        <div class="title">🎧 家豪的終端機戰術點評</div>
+        <p>「（推了一下黑口罩）呵，這頁就是我把圓桌廳堂補給終端機直接移植到網頁前端的戰術計算面板。不管你是穿大山羊套裝配名刀月隱怕『肥滾（Heavy Roll）』被王一刀秒，還是進霧門前想算手上的盧恩夠不夠買齊冰凍壺跟煮熟蝦子，直接在下面拉動滑桿，終端機 0 延遲幫你算出精確到小數點後兩位的安全門檻。」</p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>模組 A：裝備負重比（Equip Load %）與翻滾無敵幀即時計算機</h2>
+      <div class="tool-panel">
+        <div>
+          <div class="input-group">
+            <label>目前裝備總重量（Current Weight） <span id="curWVal">52.5</span></label>
+            <input type="range" id="curW" min="5" max="120" step="0.5" value="52.5" oninput="updateLoad()">
+          </div>
+          <div class="input-group">
+            <label>角色最大負重上限（Max Equip Load） <span id="maxWVal">72.0</span></label>
+            <input type="range" id="maxW" min="40" max="160" step="0.5" value="72.0" oninput="updateLoad()">
+          </div>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:10px;">
+            💡 預設值為實戰經典情境：目前重量 <code>52.5</code> ／ 最大上限 <code>72.0</code>（剛好跨過 70% 肥滾線）。試著把目前重量調低到 <code>50.0</code> 觀察變化！
+          </p>
+        </div>
+
+        <div class="output-card">
+          <div class="big-pct" id="pctText">72.92%</div>
+          <span class="roll-badge" id="rollBadge">重負重（Heavy Roll / 肥滾）</span>
+          <div id="thresholdHint" style="font-size:13.5px; color:var(--text-muted); font-family:var(--mono);"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>模組 B：圓桌補給站多品項盧恩採購試算器</h2>
+      <div class="tool-panel" style="grid-template-columns: 1.3fr 1fr;">
+        <div class="shop-grid">
+          <div class="shop-item">
+            <h4>❄️ 冰凍壺</h4>
+            <div class="price">單價：600 盧恩（斷水鳥亂舞）</div>
+            <input type="number" id="qtyFreeze" min="0" max="20" value="5" oninput="updateShop()">
+          </div>
+          <div class="shop-item">
+            <h4>🦐 煮熟蝦子</h4>
+            <div class="price">單價：600 盧恩（物理減傷+15%）</div>
+            <input type="number" id="qtyPrawn" min="0" max="30" value="10" oninput="updateShop()">
+          </div>
+          <div class="shop-item">
+            <h4>💤 睡眠壺</h4>
+            <div class="price">單價：500 盧恩（神皮雙人組剋星）</div>
+            <input type="number" id="qtySleep" min="0" max="15" value="0" oninput="updateShop()">
+          </div>
+          <div class="shop-item">
+            <h4>💎 失色鍛造石【1】</h4>
+            <div class="price">單價：2,000 盧恩（強化月隱）</div>
+            <input type="number" id="qtySomber" min="0" max="10" value="0" oninput="updateShop()">
+          </div>
+        </div>
+
+        <div class="output-card">
+          <div class="input-group">
+            <label>手上的盧恩預算（Runes Budget）</label>
+            <input type="number" id="runeBudget" step="500" value="10000" oninput="updateShop()">
+          </div>
+          <div style="font-family:var(--mono); font-size:14px; line-height:1.8;" id="shopSummary"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>翻滾負重區間與無敵幀（i-Frames）判定標準表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>負重百分比區間</th>
+              <th>翻滾狀態判定</th>
+              <th>無敵幀（60fps）</th>
+              <th>起身硬直幀</th>
+              <th>實戰評估</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>0.0% ～ 29.9%</code></td>
+              <td><strong style="color:var(--emerald);">輕負重（Light Roll）</strong></td>
+              <td>13 幀</td>
+              <td>8 幀</td>
+              <td>位移距離最遠，極易拉開頭目連段範圍。</td>
+            </tr>
+            <tr>
+              <td><code>30.0% ～ 69.9%</code></td>
+              <td><strong style="color:var(--cyan);">中負重（Medium Roll）</strong></td>
+              <td>13 幀</td>
+              <td>8 幀</td>
+              <td>全流派標準配置，兼顧高強韌重甲與流暢無敵幀。</td>
+            </tr>
+            <tr>
+              <td><code>70.0% ～ 99.9%</code></td>
+              <td><strong style="color:var(--crimson);">重負重（Heavy Roll / 肥滾）</strong></td>
+              <td>12 幀</td>
+              <td>16 幀</td>
+              <td>硬直翻倍且距離極短，打女武神或拉達岡極易暴斃。</td>
+            </tr>
+            <tr>
+              <td><code>&gt;= 100.0%</code></td>
+              <td><strong>超重（Overloaded）</strong></td>
+              <td>0 幀</td>
+              <td>無法翻滾</td>
+              <td>無法翻滾與衝刺。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <div><a href="../moonveil-katana-build/index.html">← 上一篇：[DOC_002] 名刀月隱智力居合流配裝</a> ｜ <a href="../../index.html">返回總目錄首頁 →</a></div>
+      <div>對應內容稿：<code>notes/equip-load-calculator.md</code></div>
+    </footer>
+  </div>
+
+  <script>
+    function updateLoad() {
+      const cur = parseFloat(document.getElementById('curW').value);
+      const max = parseFloat(document.getElementById('maxW').value);
+      document.getElementById('curWVal').textContent = cur.toFixed(1);
+      document.getElementById('maxWVal').textContent = max.toFixed(1);
+
+      const ratio = (cur / max) * 100;
+      const pctEl = document.getElementById('pctText');
+      const badgeEl = document.getElementById('rollBadge');
+      const hintEl = document.getElementById('thresholdHint');
+
+      pctEl.textContent = ratio.toFixed(2) + '%';
+      const midLimit = (max * 0.7).toFixed(2);
+      const lightLimit = (max * 0.3).toFixed(2);
+
+      if (ratio < 30) {
+        pctEl.style.color = '#10b981';
+        badgeEl.style.background = 'rgba(16, 185, 129, 0.2)';
+        badgeEl.style.color = '#10b981';
+        badgeEl.textContent = '🟢 輕負重（Light Roll — 距離最遠）';
+      } else if (ratio < 70) {
+        pctEl.style.color = '#38bdf8';
+        badgeEl.style.background = 'rgba(56, 189, 248, 0.2)';
+        badgeEl.style.color = '#38bdf8';
+        badgeEl.textContent = '🔵 中負重（Medium Roll — 標準無敵幀）';
+      } else if (ratio < 100) {
+        pctEl.style.color = '#f43f5e';
+        badgeEl.style.background = 'rgba(244, 63, 94, 0.2)';
+        badgeEl.style.color = '#f43f5e';
+        badgeEl.textContent = '🔴 重負重（Heavy Roll / 肥滾警告！）';
+      } else {
+        pctEl.style.color = '#f43f5e';
+        badgeEl.style.background = 'rgba(244, 63, 94, 0.3)';
+        badgeEl.style.color = '#fff';
+        badgeEl.textContent = '⚫ 超重（Overloaded — 無法翻滾）';
+      }
+
+      hintEl.innerHTML =
+        `▸ 中負重 (<70%) 重量上限：<strong>${midLimit}</strong><br>` +
+        `▸ 輕負重 (<30%) 重量上限：<strong>${lightLimit}</strong>`;
+    }
+
+    function updateShop() {
+      const qFreeze = Math.max(0, parseInt(document.getElementById('qtyFreeze').value || 0));
+      const qPrawn = Math.max(0, parseInt(document.getElementById('qtyPrawn').value || 0));
+      const qSleep = Math.max(0, parseInt(document.getElementById('qtySleep').value || 0));
+      const qSomber = Math.max(0, parseInt(document.getElementById('qtySomber').value || 0));
+      const budget = parseInt(document.getElementById('runeBudget').value || 0);
+
+      const total = qFreeze * 600 + qPrawn * 600 + qSleep * 500 + qSomber * 2000;
+      const diff = budget - total;
+      const sumEl = document.getElementById('shopSummary');
+
+      const statusHtml = diff >= 0
+        ? `<span style="color:#10b981; font-weight:700;">✅ 盧恩充足！結餘 ${diff.toLocaleString()} 盧恩</span>`
+        : `<span style="color:#f43f5e; font-weight:700;">❌ 盧恩不足！還差 ${Math.abs(diff).toLocaleString()} 盧恩</span>`;
+
+      sumEl.innerHTML =
+        `採購總計：<strong style="color:#d4af37; font-size:18px;">${total.toLocaleString()} 盧恩</strong><br>` +
+        `手上預算：${budget.toLocaleString()} 盧恩<br>` +
+        `試算結果：${statusHtml}`;
+    }
+
+    updateLoad();
+    updateShop();
+  </script>
+</body>
+</html>
