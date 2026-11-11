@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[DOC_002] 「名刀月隱」智力居合流配裝與削韌指南｜家豪的交界地戰術資料庫</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0b0e14;
+      --bg-card: #131822;
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.16);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56, 189, 248, 0.14);
+      --crimson: #f43f5e;
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.16);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #263042;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Noto Sans TC", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg-deep); color: var(--text-main); line-height: 1.7; }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+    .top-nav { padding: 22px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .back-link { color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 14px; font-weight: 600; }
+    .doc-badge { font-family: var(--mono); font-size: 12.5px; background: var(--cyan-soft); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.4); padding: 4px 12px; border-radius: 999px; }
+
+    .hero { margin-top: 28px; background: var(--bg-card); border: 1px solid var(--border); border-top: 3px solid var(--cyan); border-radius: 16px; padding: 30px; }
+    .hero h1 { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero .en-sub { font-family: var(--mono); font-size: 14px; color: var(--gold); margin-bottom: 18px; }
+    .jiahao-box { background: rgba(11, 14, 20, 0.8); border: 1px solid rgba(56, 189, 248, 0.35); border-left: 4px solid var(--cyan); border-radius: 10px; padding: 16px 20px; }
+    .jiahao-box .title { font-family: var(--mono); font-size: 13px; color: var(--cyan); font-weight: 700; margin-bottom: 6px; }
+
+    .stats-grid { margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .stat-card .lbl { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .stat-card .val { font-family: var(--mono); font-size: 23px; font-weight: 700; color: var(--gold); }
+    .stat-card .note { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
+
+    .sec { margin-top: 36px; }
+    .sec h2 { font-size: 21px; font-weight: 800; color: #fff; margin-bottom: 14px; padding-left: 12px; border-left: 4px solid var(--gold); }
+
+    .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(255, 255, 255, 0.03); color: var(--gold); font-family: var(--mono); font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+
+    .loadout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .item-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 10px; padding: 16px; }
+    .item-card h4 { color: var(--gold); font-size: 15.5px; margin-bottom: 6px; }
+    .item-card p { font-size: 13.5px; color: var(--text-muted); }
+
+    .calc-box { background: var(--bg-card); border: 1px solid var(--cyan); border-radius: 14px; padding: 24px; }
+    .control-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-bottom: 18px; }
+    .control-group label { display: block; font-size: 13.5px; color: var(--text-muted); margin-bottom: 6px; }
+    select, input[type="range"] { width: 100%; background: #0b0e14; color: #fff; border: 1px solid var(--border); padding: 9px 12px; border-radius: 8px; font-family: var(--sans); }
+    .result-panel { background: #0b0e14; border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-family: var(--mono); font-size: 14px; color: var(--emerald); }
+
+    footer { margin: 48px 0 36px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 13.5px; color: var(--text-muted); }
+    footer a { color: var(--cyan); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a class="back-link" href="../../index.html">← 返回交界地戰術總目錄</a>
+      <span class="doc-badge">[DOC_002] 流派與武器配裝</span>
+    </nav>
+
+    <section class="hero">
+      <h1>「名刀月隱」智力居合流畢業配裝指南</h1>
+      <div class="en-sub">MOONVEIL KATANA INT/DEX BUILD // GAEL TUNNEL DROP</div>
+      <div class="jiahao-box">
+        <div class="title">🎧 家豪的終端機戰術點評</div>
+        <p>「（壓低黑色連帽衛衣帽兜，手指在鍵盤上敲出一串清脆聲響）聽著耳機裡的電音節拍，我剛用終端機幫你跑完交界地所有太刀的幀數與削韌收益比。結論很簡單：『名刀月隱』就是智力流與法劍士的版本解答。出刀極快、自帶中距離魔力光波、還附帶 50 點被動出血累積，這把武器的核心從來不是平砍，而是摸透『瞬時月光』刀身與光波同時命中的 30 點恐怖削韌！」</p>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="lbl">武器取得位置</div>
+        <div class="val" style="font-size:19px;">蓋爾坑道（蓋利德）</div>
+        <div class="note">擊敗關底頭目「熔岩土龍」掉落</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">能力值最低需求</div>
+        <div class="val" style="color:var(--cyan);">力12 / 敏18 / 智23</div>
+        <div class="note">+10 滿級補正：靈巧 B ｜ 智力 B</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">納刀重擊貼身削韌</div>
+        <div class="val" style="color:var(--emerald);">30.0 削韌</div>
+        <div class="note">光波 20 + 刀身 10（3 發打跪女武神）</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">被動異常效果</div>
+        <div class="val">出血累積 (50)</div>
+        <div class="note">兼具高魔力爆發與百分比扣血</div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>專屬戰技「瞬時月光（Transient Moonlight）」削韌數據表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>招式指令</th>
+              <th>FP 消耗（裝卡利亞徽章後）</th>
+              <th>單純光波削韌</th>
+              <th>刀身＋光波貼身全中</th>
+              <th>實戰應用場景</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>納刀輕擊（L2 + R1）</strong></td>
+              <td><code>15 FP (12 FP)</code></td>
+              <td><code>15.0</code></td>
+              <td><strong style="color:var(--cyan);">22.5 削韌</strong></td>
+              <td>橫向廣域魔力斬，適合清理複數小怪、抓人形怪翻滾。</td>
+            </tr>
+            <tr>
+              <td><strong>納刀重擊（L2 + R2）</strong></td>
+              <td><code>20 FP (15 FP)</code></td>
+              <td><code>20.0</code></td>
+              <td><strong style="color:var(--emerald);">30.0 削韌</strong></td>
+              <td>縱向高傷劈砍，主力打王招式！貼身全中 3 下（90 削韌）必跪 80 韌性頭目。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>畢業四護符與靈藥配置（Loadout）</h2>
+      <div class="loadout-grid">
+        <div class="item-card">
+          <h4>1. 亞歷山大的碎片</h4>
+          <p>直接增幅戰技「瞬時月光」全段傷害 <strong>+15%</strong>，居合流綁定核心護符。</p>
+        </div>
+        <div class="item-card">
+          <h4>2. 卡利亞徽章</h4>
+          <p>降低戰技 FP 消耗 <strong>-25%</strong>，讓重擊居合從 20 FP 降至 15 FP，大幅減少喝藍水次數。</p>
+        </div>
+        <div class="item-card">
+          <h4>3. 魔力對蠍</h4>
+          <p>提升所有魔力屬性傷害 <strong>+12%</strong>（物理承傷增加 10%，建議搭配「煮熟蝦子」抵消）。</p>
+        </div>
+        <div class="item-card">
+          <h4>4. 龍徽大盾護符 / 蕾菈娜浮雕</h4>
+          <p>提供 <strong>+20% 物理減傷率</strong>提升容錯；若進 DLC 可換成蕾菈娜的浮雕強化納刀爆發。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>互動工具：頭目削韌打跪次數 ＆ 智力居合流配點試算器</h2>
+      <div class="calc-box">
+        <div class="control-row">
+          <div class="control-group">
+            <label>1. 選擇目標頭目（依真實韌性值計算）：</label>
+            <select id="bossSelect" onchange="calcMoonveil()">
+              <option value="80|瑪蓮妮亞 / 惡兆王蒙葛特">瑪蓮妮亞 / 惡兆王蒙葛特（80 韌性）</option>
+              <option value="80|黑劍瑪利喀斯">黑劍瑪利喀斯（80 韌性）</option>
+              <option value="120|鮮血君王蒙格 / 葛孚雷">鮮血君王蒙格 / 初始之王葛孚雷（120 韌性）</option>
+              <option value="120|碎星拉塔恩">碎星將軍拉塔恩（120 韌性）</option>
+              <option value="150|艾爾登之獸">艾爾登之獸（150 韌性）</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>2. 命中距離與靈藥狀態：</label>
+            <select id="hitMode" onchange="calcMoonveil()">
+              <option value="30">貼身刀身＋光波全中（單發 30.0 削韌）</option>
+              <option value="34.5">貼身全中＋飲用「岩刺破露滴」（單發 34.5 削韌）</option>
+              <option value="20">中距離僅光波命中（單發 20.0 削韌）</option>
+            </select>
+          </div>
+        </div>
+        <div class="result-panel" id="moonveilResult"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div><a href="../malenia-blade-of-miquella/index.html">← 上一篇：[DOC_001] 瑪蓮妮亞戰術解析</a> ｜ 下一篇：<a href="../equip-load-calculator/index.html">[DOC_003] 圓桌補給＆翻滾負重計算機 →</a></div>
+      <div>對應內容稿：<code>notes/moonveil-katana-build.md</code></div>
+    </footer>
+  </div>
+
+  <script>
+    function calcMoonveil() {
+      const [poiseStr, bossName] = document.getElementById('bossSelect').value.split('|');
+      const poise = parseFloat(poiseStr);
+      const stanceDmg = parseFloat(document.getElementById('hitMode').value);
+      const hitsNeeded = Math.ceil(poise / stanceDmg);
+      const fpCostNormal = hitsNeeded * 20;
+      const fpCostCarian = hitsNeeded * 15;
+
+      document.getElementById('moonveilResult').innerHTML =
+        `🎯 目標頭目：【${bossName}】（總韌性 ${poise}）<br>` +
+        `⚡ 單發納刀重擊削韌：${stanceDmg} 點 ➔ 連續命中 <strong>${hitsNeeded} 發</strong>（累積 ${(hitsNeeded * stanceDmg).toFixed(1)} 削韌）即可打出處決跪地！<br>` +
+        `💧 總消耗 FP 預估：無護符需 ${fpCostNormal} FP ／ 裝備「卡利亞徽章」僅需 <strong>${fpCostCarian} FP</strong>。`;
+    }
+    calcMoonveil();
+  </script>
+</body>
+</html>
