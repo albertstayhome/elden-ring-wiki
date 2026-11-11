@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[DOC_001] 「米凱拉的鋒刃」瑪蓮妮亞戰術解析｜家豪的交界地戰術資料庫</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0b0e14;
+      --bg-card: #131822;
+      --bg-card-hover: #1a2230;
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.16);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56, 189, 248, 0.14);
+      --crimson: #f43f5e;
+      --crimson-soft: rgba(244, 63, 94, 0.16);
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.16);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #263042;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Noto Sans TC", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+    .top-nav {
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-link {
+      color: var(--cyan);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-badge {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      background: var(--crimson-soft);
+      color: var(--crimson);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      margin-top: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--crimson);
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .hero h1 { font-size: 30px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero .en-sub { font-family: var(--mono); font-size: 14px; color: var(--gold); margin-bottom: 18px; }
+    .jiahao-box {
+      background: rgba(11, 14, 20, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-left: 4px solid var(--cyan);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .jiahao-box .title { font-family: var(--mono); font-size: 13px; color: var(--cyan); font-weight: 700; margin-bottom: 6px; }
+
+    /* Stats Grid */
+    .stats-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .stat-card .lbl { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .stat-card .val { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--gold); }
+    .stat-card .note { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Section */
+    .sec { margin-top: 36px; }
+    .sec h2 {
+      font-size: 21px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 14px;
+      padding-left: 12px;
+      border-left: 4px solid var(--gold);
+    }
+
+    /* Data Table */
+    .table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(255, 255, 255, 0.03); color: var(--gold); font-family: var(--mono); font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    .good { color: var(--emerald); font-weight: 700; }
+    .bad { color: var(--crimson); font-weight: 700; }
+
+    /* Interactive Simulator */
+    .sim-box {
+      background: var(--bg-card);
+      border: 1px solid var(--cyan);
+      border-radius: 14px;
+      padding: 26px;
+    }
+    .sim-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .btn {
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover { background: var(--cyan); color: #000; }
+    .btn.reset { background: transparent; color: var(--text-muted); border-color: var(--border); }
+    .meter-bg {
+      height: 22px;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      transition: width 0.25s ease;
+    }
+    .sim-log {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      color: var(--emerald);
+    }
+
+    footer {
+      margin: 48px 0 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a class="back-link" href="../../index.html">← 返回交界地戰術總目錄</a>
+      <span class="doc-badge">[DOC_001] BOSS 戰術解析</span>
+    </nav>
+
+    <section class="hero">
+      <h1>「米凱拉的鋒刃」瑪蓮妮亞</h1>
+      <div class="en-sub">MALENIA, BLADE OF MIQUELLA // LOCATION: HALIGTREE ROOTS</div>
+      <div class="jiahao-box">
+        <div class="title">🎧 家豪的終端機戰術點評</div>
+        <p>「（推了一下 3D 黑口罩，單邊耳機傳來 Alan Walker 的電音節拍）呵，連女武神的水鳥亂舞起手幀數與凍傷閾值都沒摸透，就敢踏進聖樹底層的霧門？記住，瑪蓮妮亞每一次命中都會吸血，跟她硬換血就是慢性死亡。看清楚下面終端機調出來的韌性值（80）與凍傷閾值（306），腰間掛好『冰凍壺』，她一飛上天就是你斷她招的時刻。」</p>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="lbl">總生命值（一＋二階段）</div>
+        <div class="val">33,251 HP</div>
+        <div class="note">P1: 18,473 ／ P2: 14,778</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">頭目韌性值（Poise）</div>
+        <div class="val" style="color:var(--cyan);">80 韌性</div>
+        <div class="note">名刀月隱重擊 3 發即可處決</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">初次凍傷／出血閾值</div>
+        <div class="val" style="color:var(--emerald);">306 / 420</div>
+        <div class="note">1 顆冰凍壺 (380) 直接炸斷水鳥</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">格擋處決需求</div>
+        <div class="val">3 次 Parry</div>
+        <div class="note">推薦黃金格擋或卡利亞奉還</div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>屬性減傷率與異常狀態閾值表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>類別</th>
+              <th>異常 / 屬性名稱</th>
+              <th>一階段數值 / 閾值</th>
+              <th>後續觸發閾值</th>
+              <th>家豪實戰評級與建議</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>異常狀態</td>
+              <td>❄️ 凍傷（Frostbite）</td>
+              <td><code>306</code></td>
+              <td><code>446 → 670</code></td>
+              <td><span class="good">★ 極度有效</span>：冰凍壺單發累積 380，前兩次水鳥亂舞可 1 顆秒斷！</td>
+            </tr>
+            <tr>
+              <td>異常狀態</td>
+              <td>🩸 出血（Hemorrhage）</td>
+              <td><code>420</code></td>
+              <td><code>560 → 790</code></td>
+              <td><span class="good">★ 非常有效</span>：名刀月隱（出血 50）或屍山血海能穩定打出百分比扣血。</td>
+            </tr>
+            <tr>
+              <td>異常狀態</td>
+              <td>🌺 猩紅腐敗（Scarlet Rot）</td>
+              <td><code>1,448</code></td>
+              <td>免疫級別</td>
+              <td><span class="bad">✕ 絕對無效</span>：她本人就是腐敗女神，千萬別帶腐敗吐息。</td>
+            </tr>
+            <tr>
+              <td>屬性吸收</td>
+              <td>🔥 火屬性 ／ 斬擊</td>
+              <td><code>0% / 10%</code></td>
+              <td>二階段水池火減 10%</td>
+              <td><span class="good">◎ 推薦主力</span>：火屬性與魔力居合皆能打出全額傷害。</td>
+            </tr>
+            <tr>
+              <td>屬性吸收</td>
+              <td>✨ 聖屬性（Holy）</td>
+              <td><code>40% 減傷</code></td>
+              <td>維持高抗</td>
+              <td><span class="bad">△ 不推薦</span>：黑劍或聖屬性武器傷害會被砍近半。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>互動模擬器：水鳥亂舞「冰凍壺斷招」與凍傷抗性成長試算</h2>
+      <div class="sim-box">
+        <p style="font-size:14.5px; color:var(--text-muted);">
+          瑪蓮妮亞每次中凍傷後，下一次的凍傷閾值都會提高（<code>306 → 446 → 670</code>）。點擊下方按鈕模擬實戰投擲「冰凍壺（+380 凍傷）」或「寒冷武器平砍（+105 凍傷）」，檢查能否在 1.6 秒滯空時間內強制斷掉水鳥亂舞：
+        </p>
+        <div class="sim-controls">
+          <button class="btn" onclick="applyFrost(380, '投擲【冰凍壺】')">🏺 投擲【冰凍壺】(+380 凍傷)</button>
+          <button class="btn" onclick="applyFrost(105, '寒冷武器斬擊')">⚔️ 寒冷武器斬擊 (+105 凍傷)</button>
+          <button class="btn reset" onclick="resetFrost()">🔄 重置頭目戰鬥狀態</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-family:var(--mono); font-size:13px;">
+          <span id="stageLabel">目前階段：第 1 次凍傷累積</span>
+          <span id="progressLabel">0 / 306</span>
+        </div>
+        <div class="meter-bg">
+          <div class="meter-fill" id="frostBar"></div>
+        </div>
+        <div class="sim-log" id="simLog">
+          [TERMINAL READY] 女武神躍起準備施放「水鳥亂舞」（滯空 1.6 秒），請選擇反制動作...
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div><a href="../../index.html">← 返回總目錄首頁</a> ｜ 下一篇：<a href="../moonveil-katana-build/index.html">[DOC_002] 名刀月隱智力居合流配裝 →</a></div>
+      <div>對應內容稿：<code>notes/malenia-blade-of-miquella.md</code></div>
+    </footer>
+  </div>
+
+  <script>
+    const thresholds = [306, 446, 670, 999];
+    let procCount = 0;
+    let currentBuildup = 0;
+
+    function applyFrost(amount, actionName) {
+      const target = thresholds[Math.min(procCount, thresholds.length - 1)];
+      currentBuildup += amount;
+      const log = document.getElementById('simLog');
+
+      if (currentBuildup >= target) {
+        procCount++;
+        currentBuildup = 0;
+        const nextTarget = thresholds[Math.min(procCount, thresholds.length - 1)];
+        log.style.color = '#10b981';
+        log.innerHTML = `✅ 【成功斷招！】執行「${actionName}」使凍傷突破 ${target} 閾值！女武神在空中發生大硬直直接摔落，扣除 10% 最大生命並降低 20% 防禦！<br>⚠️ 注意：下一次（第 ${procCount + 1} 次）凍傷閾值已提升至 ${nextTarget}（單顆冰凍壺 380 將無法一發秒斷，需先補刀累積或改用繞圈翻滾）。`;
+      } else {
+        log.style.color = '#f43f5e';
+        log.innerHTML = `⚠️ 【尚未觸發凍傷】執行「${actionName}」後目前累積 ${currentBuildup} / ${target}。若她在空中尚未破閾值，請立刻貼身繞圈並準備翻滾閃避第二段！`;
+      }
+      updateUI();
+    }
+
+    function resetFrost() {
+      procCount = 0;
+      currentBuildup = 0;
+      const log = document.getElementById('simLog');
+      log.style.color = '#10b981';
+      log.textContent = '[TERMINAL RESET] 已重置為第一階段初始狀態（初次凍傷閾值 306）。';
+      updateUI();
+    }
+
+    function updateUI() {
+      const target = thresholds[Math.min(procCount, thresholds.length - 1)];
+      const pct = Math.min(100, Math.round((currentBuildup / target) * 100));
+      document.getElementById('frostBar').style.width = pct + '%';
+      document.getElementById('stageLabel').textContent = `目前階段：第 ${procCount + 1} 次凍傷目標（已觸發 ${procCount} 次）`;
+      document.getElementById('progressLabel').textContent = `${currentBuildup} / ${target}`;
+    }
+  </script>
+</body>
+</html>
