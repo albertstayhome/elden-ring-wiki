@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家豪的交界地戰術資料庫｜Lands Between Tactical Wiki</title>
+  <meta name="description" content="由數據流黑客玩家「家豪」維護的《艾爾登法環》結構化戰術數據與互動配裝知識庫。依循 AGENTS.md 專案規則自動化擴充。">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0b0e14;
+      --bg-card: #131822;
+      --bg-card-hover: #1a2230;
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.16);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56, 189, 248, 0.14);
+      --crimson: #f43f5e;
+      --crimson-soft: rgba(244, 63, 94, 0.16);
+      --emerald: #10b981;
+      --emerald-soft: rgba(16, 185, 129, 0.16);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #263042;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Noto Sans TC", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.06) 0%, transparent 40%),
+        linear-gradient(rgba(38, 48, 66, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(38, 48, 66, 0.22) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      color: var(--text-main);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+
+    /* Top Status Bar */
+    .terminal-bar {
+      margin-top: 24px;
+      background: rgba(19, 24, 34, 0.9);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--cyan);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .terminal-bar .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      margin-right: 8px;
+    }
+    .terminal-bar code {
+      color: var(--cyan);
+      background: var(--cyan-soft);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Hero Header */
+    header { padding: 36px 0 28px; }
+    .hero-card {
+      background: linear-gradient(135deg, #131822 0%, #0f1520 100%);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 28px;
+      align-items: center;
+    }
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--gold);
+      background: var(--gold-soft);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .hero-card h1 {
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.25;
+      letter-spacing: 0.5px;
+    }
+    .hero-card h1 span { color: var(--gold); }
+    .hero-card .subtitle {
+      margin-top: 12px;
+      color: var(--text-muted);
+      font-size: 15.5px;
+    }
+
+    /* Jiahao Persona Quote Box */
+    .jiahao-box {
+      margin-top: 20px;
+      background: rgba(11, 14, 20, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-left: 4px solid var(--cyan);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 14.5px;
+    }
+    .jiahao-box .persona-title {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Right Stats Box in Hero */
+    .hero-stats {
+      background: rgba(11, 14, 20, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 10px;
+    }
+    .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .stat-row .lbl { font-size: 13px; color: var(--text-muted); }
+    .stat-row .val { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--gold); }
+    .stat-row .val.cyan { color: var(--cyan); }
+
+    /* Controls: Search & Filter */
+    .controls {
+      margin: 12px 0 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover { border-color: var(--cyan); color: var(--text-main); }
+    .filter-btn.active {
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+    .search-input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 16px;
+      border-radius: 8px;
+      width: 280px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .search-input:focus { border-color: var(--gold); }
+
+    /* Section Header */
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .sec-head h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-head h2::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 22px;
+      background: var(--gold);
+      border-radius: 3px;
+    }
+
+    /* Guide Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+      gap: 22px;
+    }
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .guide-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+      border-color: var(--gold);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .file-id {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+    .badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+    }
+    .badge-boss { background: var(--crimson-soft); color: var(--crimson); border: 1px solid rgba(244, 63, 94, 0.35); }
+    .badge-build { background: var(--cyan-soft); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.35); }
+    .badge-tool { background: var(--emerald-soft); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.35); }
+
+    .guide-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .guide-card p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      flex: 1;
+      margin-bottom: 16px;
+    }
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 2px 9px;
+      border-radius: 6px;
+    }
+    .card-cta {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* AGENTS.md Architecture Showcase Box */
+    .workflow-sec {
+      margin-top: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 30px;
+    }
+    .workflow-sec h2 {
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .workflow-steps {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+    .step-box {
+      background: rgba(11, 14, 20, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .step-box .step-no {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--cyan);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .step-box h4 { font-size: 15.5px; color: #fff; margin-bottom: 6px; }
+    .step-box p { font-size: 13.5px; color: var(--text-muted); }
+    .step-box code {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--gold);
+      background: var(--gold-soft);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    footer {
+      margin: 56px 0 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 13.5px;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .hero-card { grid-template-columns: 1fr; padding: 24px; }
+      .search-input { width: 100%; }
+      .hero-card h1 { font-size: 27px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="terminal-bar">
+      <div><span class="dot"></span>JIAHAO_TACTICAL_TERMINAL v2.4 // STATUS: ONLINE</div>
+      <div>專案憲法驅動：<code>AGENTS.md</code> + <code>notes/*.md</code> → <code>guides/*/index.html</code></div>
+    </div>
+
+    <header>
+      <div class="hero-card">
+        <div>
+          <div class="brand-tag">⚔️ LANDS BETWEEN TACTICAL WIKI ・ 交界地戰術資料庫</div>
+          <h1>家豪的<span>交界地</span>數據終端機</h1>
+          <p class="subtitle">
+            專為《艾爾登法環（Elden Ring）》褪色者打造的結構化戰術數據與互動配裝知識庫。每一篇攻略皆嚴格依循 <code>AGENTS.md</code> 員工手冊生成，內建真實閾值表格與零延遲試算工具。
+          </p>
+          <div class="jiahao-box">
+            <div class="persona-title">🎧 家豪的終端機廣播（Alan Walker BGM 播放中）</div>
+            <p>「（推了一下 3D 黑口罩）呵，還在看那些連韌性值跟負重比都不敢寫清楚的農場攻略？這裡的每一頁檔案都照我的 <code>AGENTS.md</code> 標準打造，挑一份戰術檔案點進去，別在霧門前丟人現眼了。」</p>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-row">
+            <span class="lbl">已收錄戰術檔案</span>
+            <span class="val" id="totalCount">3 篇</span>
+          </div>
+          <div class="stat-row">
+            <span class="lbl">互動試算模組</span>
+            <span class="val cyan">3 組</span>
+          </div>
+          <div class="stat-row">
+            <span class="lbl">內容先行稿件</span>
+            <span class="val">notes/*.md</span>
+          </div>
+          <div class="stat-row">
+            <span class="lbl">AI 專案規則檔</span>
+            <span class="val cyan">AGENTS.md</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="sec-head">
+        <h2>戰術檔案總目錄（Tactical Archives）</h2>
+      </div>
+
+      <div class="controls">
+        <div class="filter-group" role="tablist">
+          <button class="filter-btn active" onclick="filterGuides('all', this)">全部檔案 (3)</button>
+          <button class="filter-btn" onclick="filterGuides('boss', this)">BOSS 戰術解析</button>
+          <button class="filter-btn" onclick="filterGuides('build', this)">流派與武器配裝</button>
+          <button class="filter-btn" onclick="filterGuides('tool', this)">戰術試算工具</button>
+        </div>
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜尋女武神、月隱、負重、冰凍壺..." oninput="searchGuides()">
+      </div>
+
+      <div class="grid" id="guidesGrid">
+
+        <!-- DOC_001: Malenia -->
+        <a class="guide-card" href="guides/malenia-blade-of-miquella/index.html" data-category="boss" data-keywords="女武神 瑪蓮妮亞 水鳥亂舞 冰凍壺 凍傷 聖樹 boss malenia">
+          <div class="card-top">
+            <span class="file-id">[DOC_001]</span>
+            <span class="badge badge-boss">BOSS 戰術解析</span>
+          </div>
+          <h3>「米凱拉的鋒刃」瑪蓮妮亞：水鳥亂舞與凍傷閾值解析</h3>
+          <p>完整拆解女武神 80 韌性弱點、一二階段異常抗性閾值（306 凍傷／420 出血），並內建「水鳥亂舞冰凍壺斷招＆凍傷累積模擬器」。</p>
+          <div class="tags">
+            <span class="tag">#水鳥亂舞斷招</span>
+            <span class="tag">#韌性80</span>
+            <span class="tag">#互動凍傷模擬</span>
+          </div>
+          <span class="card-cta">調閱終端機檔案 →</span>
+        </a>
+
+        <!-- DOC_002: Moonveil -->
+        <a class="guide-card" href="guides/moonveil-katana-build/index.html" data-category="build" data-keywords="名刀月隱 居合 瞬時月光 智力流 太刀 削韌 護符 moonveil">
+          <div class="card-top">
+            <span class="file-id">[DOC_002]</span>
+            <span class="badge badge-build">流派與武器配裝</span>
+          </div>
+          <h3>「名刀月隱」智力居合流：瞬時月光削韌與畢業配裝</h3>
+          <p>詳列蓋爾坑道取得路線、刀身＋光波貼身 30 點高削韌機制、4 大畢業護符組合，附帶「智力／靈巧配點與幾發打跪 BOSS 試算器」。</p>
+          <div class="tags">
+            <span class="tag">#瞬時月光30削韌</span>
+            <span class="tag">#智力B補正</span>
+            <span class="tag">#配點試算器</span>
+          </div>
+          <span class="card-cta">調閱終端機檔案 →</span>
+        </a>
+
+        <!-- DOC_003: Equip Load & Shop Calculator -->
+        <a class="guide-card" href="guides/equip-load-calculator/index.html" data-category="tool" data-keywords="裝備負重 翻滾 肥滾 輕翻滾 中翻滾 圓桌補給 盧恩 冰凍壺 蝦子 calculator">
+          <div class="card-top">
+            <span class="file-id">[DOC_003]</span>
+            <span class="badge badge-tool">戰術試算工具</span>
+          </div>
+          <h3>交界地圓桌補給站 ＆ 翻滾負重比即時計算機</h3>
+          <p>即時計算目前裝備重量百分比（輕負重 &lt;30%／中負重 &lt;70%／肥滾判定），並整合圓桌補給站多品項道具盧恩預算試算面板。</p>
+          <div class="tags">
+            <span class="tag">#70%中翻滾門檻</span>
+            <span class="tag">#盧恩採購試算</span>
+            <span class="tag">#即時滑桿互動</span>
+          </div>
+          <span class="card-cta">啟動戰術計算機 →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="workflow-sec">
+      <h2>📜 本專案如何透過 AGENTS.md 讓 AI 自動擴充新頁面？</h2>
+      <p style="font-size: 14.5px; color: var(--text-muted);">
+        本網站並非單次 Vibe Coding 產物，而是建立在 <code>AGENTS.md</code>（員工手冊）規範上的可擴充系統。當老闆（使用者）下達指令「幫我新增鮮血君王蒙格的攻略頁」時，AI Agent 會自動執行以下四步標準作業流程（SOP）：
+      </p>
+      <div class="workflow-steps">
+        <div class="step-box">
+          <div class="step-no">STEP 01 // CONTENT FIRST</div>
+          <h4>撰寫內容數據稿</h4>
+          <p>先在 <code>notes/&lt;slug&gt;.md</code> 整理頭目 HP、韌性、異常閾值與家豪點評，確保事實與數據先行。</p>
+        </div>
+        <div class="step-box">
+          <div class="step-no">STEP 02 // SELF-CONTAINED PAGE</div>
+          <h4>生成獨立戰術網頁</h4>
+          <p>套用 <code>AGENTS.md</code> 規定的黑金色票與三大類別模版，生成 <code>guides/&lt;slug&gt;/index.html</code> 與互動工具。</p>
+        </div>
+        <div class="step-box">
+          <div class="step-no">STEP 03 // INDEX REGISTRATION</div>
+          <h4>註冊首頁目錄卡片</h4>
+          <p>在根目錄 <code>index.html</code> 自動插入新卡片並綁定 <code>data-category</code> 與搜尋關鍵字。</p>
+        </div>
+        <div class="step-box">
+          <div class="step-no">STEP 04 // STATE SYNC</div>
+          <h4>同步更新白板紀錄</h4>
+          <p>更新 <code>NOTES.md</code> 完成進度與 <code>log.md</code> 架構決策，讓下次開啟對話的 AI 瞬間無縫接手。</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 家豪的交界地戰術資料庫｜中央大學 電機二A 林鑫吾（11450101010）</div>
+      <div>Powered by <code>AGENTS.md</code> Agentic Workflow ・ Hosted on GitHub Pages</div>
+    </footer>
+
+  </div>
+
+  <script>
+    let currentCategory = 'all';
+
+    function filterGuides(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      applyFilter();
+    }
+
+    function searchGuides() {
+      applyFilter();
+    }
+
+    function applyFilter() {
+      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+      const cards = document.querySelectorAll('.guide-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const catMatch = (currentCategory === 'all') || (card.getAttribute('data-category') === currentCategory);
+        const text = (card.innerText + ' ' + (card.getAttribute('data-keywords') || '')).toLowerCase();
+        const qMatch = !q || text.includes(q);
+        if (catMatch && qMatch) {
+          card.style.display = 'flex';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('totalCount').textContent = visible + ' 篇';
+    }
+  </script>
+</body>
+</html>
